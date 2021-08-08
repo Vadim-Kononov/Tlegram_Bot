@@ -1,0 +1,82 @@
+После записи образа создать в корневом каталоге два файла:
+ssh (без расширения)
+и 
+wpa_supplicant.conf
+
+Файл ssh оставляем пустым (он нужен для того, чтобы активировать доступ по SSH, который по умолчанию в Raspbian отключен),
+а в wpa_supplicant.conf вводим следующее:
+
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+country=RU
+network={
+ssid="One"
+psk="73737373"
+key_mgmt=WPA-PSK
+}
+
+
+Русификация консоли
+sudo raspi-config
+
+en_GB.UTF-8 UTF-8
+ru_RU.UTF-8 UTF-8
+
+sudo dpkg-reconfigure console-setup
+UTF-8
+комбинированный, латиница, кириллица славянские и не славянские шрифты
+Fixed
+8/18
+
+Установка сертификата, но curl работает и без этой установки
+openssl req -newkey rsa:2048 -sha256 -nodes -keyout private.key -x509 -days 365 -out public.pem
+Упаковка сертификата в один файл
+cat private.key public.pem > cert.pem
+
+Вызвов crontab для редактирования
+crontab -e
+sudo EDITOR=/bin/nano crontab -e
+
+Войти под root
+sudo -i
+
+Посмотреть свободное место на карте
+df -h
+
+Обновление пакетов
+sudo apt update
+sudo apt full-upgrade
+
+Установка libcurl
+sudo apt-get install libcurl4-openssl-dev
+
+Установка nlohmann-json
+sudo apt-get install nlohmann-json-dev
+
+Очистка от архивов после установки пакетов
+sudo apt clean
+
+Засыпающий Wlan
+Проверка режима сна
+sudo iw wlan0 get power_save
+Добавить строку в /etc/rc.local
+/sbin/iwconfig wlan0 power off
+
+Проверка состояния таймера
+dmesg | grep watchdog
+Установка пакета таймера и chkconfig
+sudo apt-get install watchdog chkconfig
+Включение в автозагрузку и запуск
+sudo chkconfig watchdog on
+sudo service watchdog start
+
+Конфиг таймера
+/etc/watchdog.conf
+Последний раз не менял
+
+Просмотр состяния
+dmesg | grep watchdog
+
+Толчок для таймера
+sudo sh -c "echo '.' >> /dev/watchdog"
+
