@@ -1,0 +1,155 @@
+ОС
+Ubuntu 20.04
+Адрес сервера
+141.95.21.222
+Порт SSH
+33737
+
+Oбновление индекса пакетов в системе
+sudo apt update
+Oбновление устаревших пакетов
+sudo apt upgrade
+
+Установка пакета для восстановления правил iptables после перезагрузки
+sudo apt-get install iptables-persistent
+
+Чтение правил iptables
+sudo iptables -L
+
+Разрешение входящих пакетов на порт 33737 с адреса 91.243.97.64
+sudo iptables -A INPUT -p tcp -s 91.243.97.64 --dport 33737 -j ACCEPT
+
+Разрешение входящих пакетов на порт 33737 с подсети 87.117.0.0
+sudo iptables -A INPUT -p tcp -s 87.117.0.0/16 --dport 33737 -j ACCEPT
+
+Запрещение всех входящих пакетов на порт 33737
+sudo iptables -A INPUT -p tcp --dport 33737 -j DROP
+
+Чтение правил iptables
+sudo iptables -L
+
+Сохранение правил iptables для IP4
+sudo iptables-save > /etc/iptables/rules.v4
+
+Сохранение правил iptables для IP4
+sudo ip6tables-save > /etc/iptables/rules.v6
+
+Перезагрузка сервера
+sudo reboot
+
+Чтение правил iptables
+sudo iptables -L
+
+Создание юзера
+adduser kononov
+
+Подключение юзера к группе администраторов
+adduser kononov sudo
+
+Внесение записи в файл /etc/sudoers для отключения ввода пароля sudo юзером
+sudo visudo
+Изменить строку
+%sudo ALL=(ALL:ALL) NOPASSWD: ALL
+
+Перезагрузка сервера
+sudo reboot
+
+Вход под kononov
+Поиск кофигурационного файла ssh
+sudo find /etc/ -name "sshd_config"
+	
+Редактирование файла /etc/ssh/sshd_config изменение порта для ssh и запрет подключения по ssh пользователя root
+Раскомментировать и изменить	
+Port 33737 				
+Изменить
+PermitRootLogin no
+
+Перезапус службы sshna
+sudo systemctl restart sshd
+
+Создание папки для бота	
+sudo mkdir /home/ubuntu/bot
+
+Изменение прав доступа к папке для копирования файлов с компьютера
+sudo chmod -R 777 /home/ubuntu/bot
+
+Установка компилятора
+sudo apt install g++
+
+Удалить все пакеты с ключевым словом curl и установить заново
+sudo apt-get install libcurl4-openssl-dev
+
+Установка пакета json
+sudo apt-get install nlohmann-json3-dev
+
+Строка для компиляции
+g++ bot.cpp -o bot -lcurl -Wno-psabi
+
+Установка разрешения на выполнение
+sudo chmod +x /home/ubuntu/bot/bot
+sudo chmod +x /home/ubuntu/bot/restart.sh
+
+Создание файла log.log
+nano /home/ubuntu/bot/log.log
+
+Необходимо прописать его в файле /etc/rc.local до строчки exit 0 команду запуска скрипта
+/home/ubuntu/bot/restart.sh
+
+Установка пакета генерирующего пароли
+sudo apt install pwgen
+
+Генерация одного пароля из 25 символов
+pwgen -1 -s -n 25
+
+Загрузка скрипта установки VPN сервера IPsec/L2TP
+wget https://git.io/vpnsetup -O vpn.sh
+
+Запись в скрипт ключа YOUR_IPSEC_PSK, имени и пароля первого юзера YOUR_USERNAME, YOUR_PASSWORD  
+nano vpn.sh
+
+Запуск скрипта
+sudo sh vpn.sh
+
+Загрузка скрипта добавления юзеров
+wget -O add_vpn_user.sh https://bit.ly/addvpnuser
+
+Добавление второго юзера
+sudo sh add_vpn_user.sh 'yurij' 'cbhLtpjr73+'
+
+Добавление третьего юзера
+sudo sh add_vpn_user.sh 'vadim' 'cbhLtpjr73+'
+
+Правило запрещающее прием пинга
+sudo iptables -A INPUT -p icmp --icmp-type 8 -j DROP
+
+Сохранение правил iptables для IP4
+sudo iptables-save > /etc/iptables/rules.v4
+
+Сохранение правил iptables для IP4
+sudo ip6tables-save > /etc/iptables/rules.v6
+
+ping 141.95.21.222
+
+
+
+
+
+
+
+
+
+
+
+
+Запасные команды
+Удаление каталога
+sudo rm -R /home/ubuntu/bot
+
+Перенос файлов
+sudo mv bot.cpp /home/ubuntu/bot
+sudo mv functions.cpp /home/ubuntu/bot
+sudo mv restart.sh /home/ubuntu/bot
+
+Перенос папок
+sudo mv /home/ubuntu/data /home/ubuntu/bot
+sudo mv /home/ubuntu/var /home/ubuntu/bot
