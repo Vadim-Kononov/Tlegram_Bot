@@ -1,0 +1,12 @@
+curl --cacert cert.pem https://api.telegram.org/bot1594675437:AAF_Il5Or9wOMWTUaJq4Fxt1pjcMIql2Zdw/setWebhook?url=91.243.97.64:443&certificate=cert.pem
+
+
+curl --cacert cert.pem https://api.telegram.org/bot1594675437:AAF_Il5Or9wOMWTUaJq4Fxt1pjcMIql2Zdw/deleteWebhook?url=91.243.97.64:443&certificate=cert.pem
+
+
+
+curl --cacert cert.pem https://api.telegram.org/bot1594675437:AAF_Il5Or9wOMWTUaJq4Fxt1pjcMIql2Zdw/getUpdates
+
+
+
+
